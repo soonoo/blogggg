@@ -1,0 +1,12 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+
+const PostTitleInput = ({ titleInputRef }) => {
+  return <input className='input_post_title' ref={titleInputRef} />;
+};
+
+PostTitleInput.propTypes = {
+  titleInputRef: PropTypes.func.isRequired,
+};
+
+export default PostTitleInput;
