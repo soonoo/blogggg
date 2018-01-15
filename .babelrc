@@ -9,6 +9,7 @@
           "Components": "./components"
         }
       }
-    ]
+    ],
+    ["transform-define", "./env-config.js"]
   ]
 }

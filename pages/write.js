@@ -23,31 +23,53 @@ export default class Write extends React.Component {
   render() {
     return (
       <Layout>
+        <style jsx>{`
+          .input-title {
+            width: 100%;
+            box-sizing: border-box;
+            height: 37px;
+            font-size: 1.2em;
+            padding-left: 7px;
+            padding-right: 7px;
+            margin-bottom: 2px;
+          }
+          .input-pw, .input-submit {
+            height: 25px;
+            box-sizing: border-box;
+            margin-top: 2px;
+            margin-right: 10px;
+          }
+        `}</style>
         <Head>
           <title>This page has a title 🤔</title>
           <link rel="stylesheet" type="text/css" href="https://cdn.quilljs.com/1.3.4/quill.snow.css" />
         </Head>
-        <input className='input-title'/>
+        <input className='input-title' />
         {this.state.quill}
-        <input type='button' onClick={this.handleClick} value='제출' />
+        <div>
+          <input className='input-submit' type='button' onClick={this.handleClick} value='제출' />
+          <input className='input-pw' />
+        </div>
       </Layout>
     );
   }
 
-  handleClick = () => {
-    Router.push('/p?id=3', '/3');
-    return;
+  handleClick = async () => {
     const contents = document.querySelector('.ql-editor').innerHTML;
     const title = document.querySelector('.input-title').value;
+    const pw = document.querySelector('.input-pw').value;
 
     const params = new URLSearchParams();
     params.append('contents', contents);
     params.append('title', title);
-
-    fetch('http://localhost:5000/api/post', {
+    params.append('pw', pw);
+    
+    const response = await fetch(`${process.env.BACKEND_URL}/api/post`, {
       method: 'POST',
       body: params,
-    })
-      .then(res => console.log(res));
+    });
+    const body = await response.json();
+    console.log(response);
+    // Router.push(`/p?id=${body.id}`, `/${body.id}`)
   }
 }

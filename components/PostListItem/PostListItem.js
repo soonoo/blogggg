@@ -4,12 +4,31 @@ import Link from 'next/link';
 
 const PostListItem = ({ title, date, postId }) => {
   return (
-    <Link href={{ pathname: '/p', query: { id: postId } }} as={`/${postId}`}>
+    <div>
+      <style jsx>{`
+          li {
+            margin-bottom: 1.8em;
+          }
+          .item_title {
+            display: inline;
+            font-size: 1.8em;
+          }
+          .item_title:hover {
+            text-decoration: underline;
+            cursor: pointer;
+          }
+          .item_date {
+            font-size: 1em;
+            color: #777;
+          }
+        `}</style>
       <li className='item_list'>
-        <div className='item_title'>{title}</div>
+        <Link href={{ pathname: '/p', query: { id: postId } }} as={`/${postId}`}>
+          <div className='item_title'>{title}</div>
+        </Link>
         <div className='item_date'>{date.slice(0, 10).split('-').join('. ')}</div>
       </li>
-    </Link>
+    </div>
   );
 };
 

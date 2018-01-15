@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
+const sha512 = require('js-sha512');
 
 const router = express.Router();
 const connection = mysql.createConnection({
@@ -33,14 +34,22 @@ router.use((req, res, next) => {
   next();
 });
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   if(!req.body.title || !req.body.contents) {
-    res.status(400).end();
+    return res.status(400).end();
   }
 
-  promiseQuery('INSERT INTO posts(TITLE, CONTENTS) VALUES(?, ?)', [req.body.title, req.body.contents])
+  const userPw = sha512(req.body.pw).toUpperCase();
+  const pw = await promiseQuery('SELECT password FROM pw');
+
+  if(userPw !== pw[0].password) {
+    return res.status(400).end();
+  }
+
+  promiseQuery('INSERT INTO posts(TITLE, CONTENTS) VALUES(?, ?)',
+    [req.body.title, req.body.contents])
     .then((rows) => { res.send({ id: rows.insertId }); })
-    .catch((e) => { console.log(e); });
+    .catch(e => console.log(e));
 });
 
 router.get('/list/:id?', (req, res) => {
@@ -58,7 +67,7 @@ router.get('/list/:id?', (req, res) => {
         });
         return rows;
       })
-      .then((rows) => { res.send(rows); })
+      .then((rows) => res.send(rows))
       .catch((e) => {
         console.log(e);
         res.status(500).end();
@@ -83,4 +92,7 @@ router.get('/:id', (req, res) => {
     .catch((e) => { console.log(e); });
 });
 
-module.exports = router;
+module.exports = {
+  router,
+  connection
+};
