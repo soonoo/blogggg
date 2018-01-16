@@ -11,7 +11,8 @@ export default class MyDocument extends Document {
   render() {
     return (
       <html>
-        <Head>  
+        <Head>
+          <link rel='icon' href='/static/rocket.png' />
           <meta name="viewport" content="initial-scale=1, width=device-width"/> 
           <style>{`
             @font-face {
