@@ -3,7 +3,6 @@ const path = require('path');
 const morgan = require('morgan');
 const posts = require('./routes/post');
 const next = require('next');
-const session = require('express-session');
 const cookieParser = require('cookie-parser');
 
 const dev = process.env.NODE_ENV !== 'production'
@@ -18,11 +17,6 @@ app.prepare()
     server.use(morgan('tiny'));
     server.use('/api/post', posts.router);
     server.use(cookieParser());
-    server.use(session({
-      secret: 'helloSooNooHISOONOO',
-      resave: false,
-      saveUninitialized: true
-    }))
 
     server.get('/write', (req, res) => {
       return app.render(req, res, `/write`);

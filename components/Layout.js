@@ -1,7 +1,8 @@
-import { Header } from 'Components';
+import { Header, DocTitle } from 'Components';
 
 const Layout = (props) => (
   <div>
+    <DocTitle>{props.docTitle}</DocTitle>
     <style jsx>{`
     .container { 
       margin: 0 auto;

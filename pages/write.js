@@ -17,7 +17,23 @@ export default class Write extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ quill: <this.dynamicComponent ref={(quill) => { this.quillRef = quill; }} /> });
+    const modules = {
+      toolbar: [
+        [{ 'header': [1, 2, false] }],
+        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
+        ['link', 'image'],
+        ['clean']
+      ],
+    }
+
+    const formats = [
+      'header',
+      'bold', 'italic', 'underline', 'strike', 'blockquote',
+      'list', 'bullet', 'indent',
+      'link', 'image'
+    ]
+      this.setState({ quill: <this.dynamicComponent modules={modules} formats={formats} ref={(quill) => { this.quillRef = quill; }} /> });
   }
 
   render() {
@@ -41,7 +57,6 @@ export default class Write extends React.Component {
           }
         `}</style>
         <Head>
-          <title>This page has a title 🤔</title>
           <link rel="stylesheet" type="text/css" href="https://cdn.quilljs.com/1.3.4/quill.snow.css" />
         </Head>
         <input className='input-title' />
@@ -63,13 +78,14 @@ export default class Write extends React.Component {
     params.append('contents', contents);
     params.append('title', title);
     params.append('pw', pw);
-    
+
     const response = await fetch(`${process.env.BACKEND_URL}/api/post`, {
       method: 'POST',
       body: params,
     });
+
     const body = await response.json();
-    console.log(response);
-    // Router.push(`/p?id=${body.id}`, `/${body.id}`)
+
+    Router.push(`/p?id=${body.id}`, `/${body.id}`)
   }
 }

@@ -1,9 +1,10 @@
-import Layout from './Layout/Layout';
-import Post from './Post/Post';
-import BlogTopic from './BlogTopic/BlogTopic';
-import BlogTitle from './BlogTitle/BlogTitle';
-import Header from './Header/Header';
-import PostList from './PostList/PostList';
-import PostListItem from './PostListItem/PostListItem';
+import Layout from './Layout';
+import Post from './Post';
+import BlogTopic from './BlogTopic';
+import BlogTitle from './BlogTitle';
+import Header from './Header';
+import PostList from './PostList';
+import PostListItem from './PostListItem';
+import DocTitle from './DocTitle';
 
-export { Layout, Post, BlogTopic, BlogTitle, Header, PostList, PostListItem };
+export { Layout, Post, BlogTopic, BlogTitle, Header, PostList, PostListItem, DocTitle };
