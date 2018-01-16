@@ -6,6 +6,7 @@ const next = require('next');
 const cookieParser = require('cookie-parser');
 
 const dev = process.env.NODE_ENV !== 'production'
+const port = process.env.NODE_ENV !== 'production' ? 5000 : 80;
 const app = next({ dev })
 const handle = app.getRequestHandler();
 
@@ -30,6 +31,6 @@ app.prepare()
       return handle(req, res)
     });
 
-    server.listen(5000, () => { console.log('listening on port 5000'); });
+    server.listen(port, () => { console.log(`listening on port ${port}`); });
   })
   .catch(e => console.log(e));

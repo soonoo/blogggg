@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { BLOG_TITLE } from 'Components';
 
 const BlogTitle = () => {
   return (
@@ -10,7 +11,7 @@ const BlogTitle = () => {
           font-size: 2.3em;
         }
       `}</style>
-      <Link href='/'><h1>순우가 만든 블로그</h1></Link>
+      <Link href='/'><h1>{BLOG_TITLE}</h1></Link>
     </header>
   );
 };
