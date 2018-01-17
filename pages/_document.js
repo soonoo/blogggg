@@ -12,6 +12,7 @@ export default class MyDocument extends Document {
     return (
       <html>
         <Head>
+          <link rel="stylesheet" href="//cdn.quilljs.com/1.3.4/quill.snow.css" />
           <link rel="stylesheet"
             href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/agate.min.css" />
           <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
@@ -25,6 +26,13 @@ export default class MyDocument extends Document {
             body {
               margin: 0;
               font-family: Nanum; 
+            }
+            .ql-container {
+              border: none !important;
+              max-width: 72em;
+            }
+            .ql-editor p {
+              font-size: 18px;
             }
           `}</style>
         </Head>

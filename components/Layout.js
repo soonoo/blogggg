@@ -6,7 +6,7 @@ const Layout = (props) => (
     <style jsx>{`
     .container { 
       margin: 0 auto;
-      max-width: 70em;
+      max-width: 82em;
     }
     `}</style>
     <div className='container'>
