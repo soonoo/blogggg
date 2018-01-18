@@ -2,14 +2,6 @@ import { Layout, Post } from 'Components';
 
 const P = (props) => (
   <Layout docTitle={`${props.title}`}>
-    <style jsx>{`
-    .ql-snow {
-      border: none;
-    }
-    .ql-container {
-      padding: 40px;
-    }
-    `}</style>
     <Post contents={props.contents}/>
   </Layout>
 )

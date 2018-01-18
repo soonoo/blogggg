@@ -34,7 +34,11 @@ export default class Write extends React.Component {
       'list', 'bullet', 'indent',
       'link', 'image'
     ]
-      this.setState({ quill: <this.dynamicComponent modules={modules} formats={formats} ref={(quill) => { this.quillRef = quill; }} /> });
+      this.setState({ quill: 
+        <this.dynamicComponent modules={modules} formats={formats} ref={(quill) => { this.quillRef = quill; }}>
+          <div className="my-editing-area" dangerouslySetInnerHTML={{__html: '<p>hello world</p>'}}/>
+        </this.dynamicComponent> 
+        });
   }
 
   render() {
