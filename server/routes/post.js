@@ -18,7 +18,7 @@ connection.connect((err) => {
 
 function promiseQuery(...args) {
   return new Promise((resolve, reject) => {
-    const q = connection.query(...args, (err, rows) => {
+    connection.query(...args, (err, rows) => {
       if (err) reject(err);
       resolve(rows);
     });
@@ -46,14 +46,16 @@ router.post('/', async (req, res) => {
     return res.status(400).end();
   }
 
-  if(!isValidPassword(req.body.pw)) {
-    return res.status(400).end();
-  }
+  const isValid = await isValidPassword(req.body.pw);
 
-  promiseQuery('INSERT INTO posts(TITLE, CONTENTS) VALUES(?, ?)',
-    [req.body.title, req.body.contents])
-    .then((rows) => { res.send({ id: rows.insertId }); })
-    .catch(e => console.log(e));
+  if(!isValid) {
+    return res.status(400).end();
+  } else {
+    promiseQuery('INSERT INTO posts(TITLE, CONTENTS) VALUES(?, ?)',
+      [req.body.title, req.body.contents])
+      .then((rows) => { res.send({ id: rows.insertId }); })
+      .catch(e => console.log(e));
+  }
 });
 
 router.put('/', async (req, res) => {
@@ -61,14 +63,16 @@ router.put('/', async (req, res) => {
     return res.status(400).end();
   }
 
-  if(!isValidPassword(req.body.pw)) {
-    return res.status(400).end();
-  }
+  const isValid = await isValidPassword(req.body.pw);
 
-  promiseQuery('UPDATE posts SET title = ?, contents = ? WHERE id = ?',
-    [req.body.title, req.body.contents, parseInt(req.body.id)])
-    .then((rows) => { res.send({ id: req.body.id }); })
-    .catch(e => console.log(e));
+  if(!isValid) {
+    return res.status(400).end();
+  } else {
+    promiseQuery('UPDATE posts SET title = ?, contents = ? WHERE id = ?',
+      [req.body.title, req.body.contents, parseInt(req.body.id)])
+      .then((rows) => { res.send({ id: req.body.id }); })
+      .catch(e => console.log(e));
+  }
 });
 
 router.get('/list/:id?', (req, res) => {
