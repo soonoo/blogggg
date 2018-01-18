@@ -18,11 +18,18 @@ connection.connect((err) => {
 
 function promiseQuery(...args) {
   return new Promise((resolve, reject) => {
-    connection.query(...args, (err, rows) => {
+    const q = connection.query(...args, (err, rows) => {
       if (err) reject(err);
       resolve(rows);
     });
   });
+}
+
+async function isValidPassword(pwQuery) {
+  const userPw = sha512(pwQuery).toUpperCase();
+  const pw = await promiseQuery('SELECT password FROM pw');
+
+  return userPw === pw[0].password;
 }
 
 router.use(bodyParser.json());
@@ -39,16 +46,28 @@ router.post('/', async (req, res) => {
     return res.status(400).end();
   }
 
-  const userPw = sha512(req.body.pw).toUpperCase();
-  const pw = await promiseQuery('SELECT password FROM pw');
-
-  if(userPw !== pw[0].password) {
+  if(!isValidPassword(req.body.pw)) {
     return res.status(400).end();
   }
 
   promiseQuery('INSERT INTO posts(TITLE, CONTENTS) VALUES(?, ?)',
     [req.body.title, req.body.contents])
     .then((rows) => { res.send({ id: rows.insertId }); })
+    .catch(e => console.log(e));
+});
+
+router.put('/', async (req, res) => {
+  if(!req.body.title || !req.body.contents) {
+    return res.status(400).end();
+  }
+
+  if(!isValidPassword(req.body.pw)) {
+    return res.status(400).end();
+  }
+
+  promiseQuery('UPDATE posts SET title = ?, contents = ? WHERE id = ?',
+    [req.body.title, req.body.contents, parseInt(req.body.id)])
+    .then((rows) => { res.send({ id: req.body.id }); })
     .catch(e => console.log(e));
 });
 

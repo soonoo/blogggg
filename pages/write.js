@@ -16,6 +16,21 @@ export default class Write extends React.Component {
     this.dynamicComponent = dynamic(import('react-quill'));
   }
 
+  static async getInitialProps({ asPath }) {
+    const id =  asPath === '/write' ? '' : asPath.slice(asPath.indexOf('=') + 1);
+    if(!id) 
+    return {
+      title: '',
+      contents: '',
+      id: '',
+    };
+
+    const response = await fetch(`${process.env.BACKEND_URL}/api/post/${id}`);;
+    const data = await response.json();
+
+    return data[0];
+  }
+
   componentDidMount() {
     const modules = {
       syntax: true,
@@ -34,11 +49,14 @@ export default class Write extends React.Component {
       'list', 'bullet', 'indent',
       'link', 'image'
     ]
-      this.setState({ quill: 
-        <this.dynamicComponent modules={modules} formats={formats} ref={(quill) => { this.quillRef = quill; }}>
-          <div className="my-editing-area" dangerouslySetInnerHTML={{__html: '<p>hello world</p>'}}/>
-        </this.dynamicComponent> 
-        });
+
+    this.setState({ quill: 
+      <this.dynamicComponent modules={modules} formats={formats} ref={(quill) => { this.quillRef = quill; }}>
+        <div className="custom-editing-area" dangerouslySetInnerHTML={{__html: unescape(this.props.contents)}}/>
+      </this.dynamicComponent> 
+    });
+
+    document.querySelector('.input-title').value = this.props.title; 
   }
 
   render() {
@@ -61,9 +79,6 @@ export default class Write extends React.Component {
             margin-right: 10px;
           }
         `}</style>
-        <Head>
-          <link rel="stylesheet" type="text/css" href="https://cdn.quilljs.com/1.3.4/quill.snow.css" />
-        </Head>
         <input className='input-title' />
         {this.state.quill}
         <div>
@@ -83,14 +98,15 @@ export default class Write extends React.Component {
     params.append('contents', contents);
     params.append('title', title);
     params.append('pw', pw);
-
+    params.append('id', this.props.id);
+    
     const response = await fetch(`${process.env.BACKEND_URL}/api/post`, {
-      method: 'POST',
+      method: this.props.id ? 'PUT' : 'POST',
       body: params,
     });
 
     const body = await response.json();
 
-    Router.push(`/p?id=${body.id}`, `/${body.id}`)
+    Router.push(`/p?id=${body.id}`, `/${body.id}`);
   }
 }

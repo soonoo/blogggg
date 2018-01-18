@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import Link from 'next/link';
 
 const PostListItem = ({ title, date, postId, edit }) => {
-  const pathname = edit ? '/edit' : '/p';
-  const asPath = edit ? `/edit?id=${postId}` : `/${postId}`;
+  const pathname = edit ? '/write' : '/p';
+  const asPath = edit ? `/write?id=${postId}` : `/${postId}`;
 
   return (
     <div>
