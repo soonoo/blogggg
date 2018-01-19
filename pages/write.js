@@ -9,7 +9,7 @@ export default class Write extends React.Component {
   constructor(props) {
     super();
     this.quillRef = null;
-    this.handleClick = this.handleClick.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
       quill: null,
     };
@@ -82,14 +82,14 @@ export default class Write extends React.Component {
         <input className='input-title' />
         {this.state.quill}
         <div>
-          <input className='input-submit' type='button' onClick={this.handleClick} value='제출' />
+          <input className='input-submit' type='button' onClick={this.handleSubmit} value='제출' />
           <input className='input-pw' />
         </div>
       </Layout>
     );
   }
 
-  handleClick = async () => {
+  handleSubmit = async () => {
     const contents = document.querySelector('.ql-editor').innerHTML;
     const title = document.querySelector('.input-title').value;
     const pw = document.querySelector('.input-pw').value;
