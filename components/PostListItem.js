@@ -25,28 +25,44 @@ const PostListItem = ({ title, date, postId, edit }) => {
           }
           .item_date {
             font-size: 1.4em;
+            margin-left: 5px;
+            margin-right: 6px;
             color: #777;
+            position: relative;
+            top: 4px;
           }
           .delete {
             cursor: pointer;
           }
+          .delete-pw input {
+            border: none;
+          }
         `}</style>
       <li className='item_list'>
-        <Link href={{ pathname, query: { id: postId } }} as={asPath}>
-          <div><span className='item_title'>{title}</span></div>
-        </Link>
-        <span className='delete' onClick={() => onDeleteClick(postId)}>{edit ? <FaTrashO size={22} /> : null}</span>
+        <div>
+          <Link href={{ pathname, query: { id: postId } }} as={asPath}>
+            <span className='item_title'>{title}</span>
+          </Link>
+        </div>
+        <span className='delete' data-display={false} onClick={() => onDeleteClick(postId)}>
+          {edit ? <FaTrashO size={22} /> : null}
+        </span>
         <span className='item_date'>{date.slice(0, 10).split('-').join('. ')}</span>
+        <span className='delete-pw' ><input id={postId} ></input></span>
       </li>
     </div>
   );
 };
 
 const onDeleteClick = async (postId) => {
+  const params = new URLSearchParams();
+  params.append('pw', document.getElementById(postId).value);
+
   const response = await fetch(`${process.env.BACKEND_URL}/api/post/${postId}`, {
     method: 'DELETE',
+    body: params,
   });
-  if(response.status === 200) Router.push('/edit');
+  if(response.status === 200) Router.push('/edit', '/edit');
 }
 
 export default PostListItem;

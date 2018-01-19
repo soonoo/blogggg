@@ -42,13 +42,13 @@ router.use((req, res, next) => {
 });
 
 router.post('/', async (req, res) => {
-  if(!req.body.title || !req.body.contents) {
+  if (!req.body.title || !req.body.contents) {
     return res.status(400).end();
   }
 
   const isValid = await isValidPassword(req.body.pw);
 
-  if(!isValid) {
+  if (!isValid) {
     return res.status(400).end();
   } else {
     promiseQuery('INSERT INTO posts(TITLE, CONTENTS) VALUES(?, ?)',
@@ -59,13 +59,13 @@ router.post('/', async (req, res) => {
 });
 
 router.put('/', async (req, res) => {
-  if(!req.body.title || !req.body.contents) {
+  if (!req.body.title || !req.body.contents) {
     return res.status(400).end();
   }
 
   const isValid = await isValidPassword(req.body.pw);
 
-  if(!isValid) {
+  if (!isValid) {
     return res.status(400).end();
   } else {
     promiseQuery('UPDATE posts SET title = ?, contents = ? WHERE id = ?',
@@ -110,17 +110,23 @@ router.get('/:id', (req, res) => {
       rows.map(item => {
         item.contents = escape(item.contents);
       });
-      res.send(rows); 
+      res.send(rows);
     })
     .catch((e) => { console.log(e); });
 });
 
-router.delete('/:id', (req, res) => {
-  promiseQuery('UPDATE posts SET isDeleted = true WHERE id = ?', [req.params.id])
+router.delete('/:id', async (req, res) => {
+  const isValid = await isValidPassword(req.body.pw);
+
+  if (!isValid) {
+    return res.status(400).end();
+  } else {
+    promiseQuery('UPDATE posts SET isDeleted = true WHERE id = ?', [req.params.id])
     .then((rows) =>
-      res.send(rows) 
+      res.send(rows)
     )
     .catch((e) => { console.log(e); });
+  }
 });
 
 module.exports = {
