@@ -34,8 +34,12 @@ export default class MyDocument extends Document {
             .ql-editor p {
               font-size: 18px;
             }
+            pre {
+              white-space: pre !important;
+              overflow-x: scroll !important;
+            }
           `}</style>
-        </Head>
+        </Head>   
         <body>
           <Main />
           <NextScript />

@@ -48,7 +48,7 @@ const PostListItem = ({ title, date, postId, edit }) => {
           {edit ? <FaTrashO size={22} /> : null}
         </span>
         <span className='item_date'>{date.slice(0, 10).split('-').join('. ')}</span>
-        <span className='delete-pw' ><input id={postId} ></input></span>
+        {edit ? <span className='delete-pw' ><input id={postId} ></input></span> : null}
       </li>
     </div>
   );
@@ -62,6 +62,7 @@ const onDeleteClick = async (postId) => {
     method: 'DELETE',
     body: params,
   });
+
   if(response.status === 200) Router.push('/edit', '/edit');
 }
 
