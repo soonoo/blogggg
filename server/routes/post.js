@@ -83,7 +83,7 @@ router.get('/list/:id?', (req, res) => {
   } else {
     listId = parseInt(listId, 10);
 
-    promiseQuery('SELECT id, title, contents, post_date FROM posts WHERE isDeleted = false ORDER BY ID DESC LIMIT ?, 10', [10 * (listId - 1)])
+    promiseQuery('SELECT id, title, post_date FROM posts WHERE isDeleted = false ORDER BY ID DESC LIMIT ?, 10', [10 * (listId - 1)])
       .then(rows => {
         rows.map(item => {
           item.contents = escape(item.contents);

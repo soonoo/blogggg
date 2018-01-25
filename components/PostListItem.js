@@ -10,47 +10,52 @@ const PostListItem = ({ title, date, postId, edit }) => {
   const asPath = edit ? `/write?id=${postId}` : `/${postId}`;
 
   return (
-    <div>
+      <li className='item_list'>
       <style jsx>{`
           li {
             margin-bottom: 1.8em;
           }
           .item_title {
-            font-size: 2.3em;
+            font-size: 1.7em;
+            color: black;
+            text-decoration: none;
             display: inline-block;
           } 
           .item_title:hover {
             text-decoration: underline;
             cursor: pointer;
           }
+          .item_title:visited {
+            color: #888;
+          }
           .item_date {
-            font-size: 1.4em;
-            margin-left: 5px;
+            font-size: 1.2em;
             margin-right: 6px;
-            color: #777;
+            color: #888;
             position: relative;
             top: 4px;
           }
           .delete {
+            margin-right: 6px;
             cursor: pointer;
           }
           .delete-pw input {
             border: none;
           }
         `}</style>
-      <li className='item_list'>
         <div>
           <Link href={{ pathname, query: { id: postId } }} as={asPath}>
-            <span className='item_title'>{title}</span>
+            <a className='item_title'>{title}</a>
           </Link>
         </div>
-        <span className='delete' data-display={false} onClick={() => onDeleteClick(postId)}>
-          {edit ? <FaTrashO size={22} /> : null}
-        </span>
+        {edit ?
+          <span className='delete' data-display={false} onClick={() => onDeleteClick(postId)}>
+            <FaTrashO size={22} />
+          </span> 
+        : null}
         <span className='item_date'>{date.slice(0, 10).split('-').join('. ')}</span>
         {edit ? <span className='delete-pw' ><input id={postId} ></input></span> : null}
       </li>
-    </div>
   );
 };
 
