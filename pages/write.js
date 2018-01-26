@@ -37,6 +37,8 @@ export default class Write extends React.Component {
       toolbar: [
         [{ 'header': [1, 2, false] }],
         ['bold', 'italic', 'underline', 'strike', 'blockquote', 'code-block'],
+        [{ 'direction': 'rtl' }],
+        [{ 'color': [] }, { 'background': [] }],
         [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
         ['link', 'image'],
         ['clean']
@@ -46,12 +48,13 @@ export default class Write extends React.Component {
     const formats = [
       'header',
       'bold', 'italic', 'underline', 'strike', 'blockquote', 'code-block',
+      'color', 'background ',
       'list', 'bullet', 'indent',
       'link', 'image'
     ]
 
     this.setState({ quill: 
-      <this.dynamicComponent modules={modules} formats={formats} ref={(quill) => { this.quillRef = quill; }}>
+      <this.dynamicComponent modules={modules}  ref={(quill) => { this.quillRef = quill; }}>
         <div className="custom-editing-area" dangerouslySetInnerHTML={{__html: unescape(this.props.contents)}}/>
       </this.dynamicComponent> 
     });
@@ -100,7 +103,7 @@ export default class Write extends React.Component {
     params.append('pw', pw);
     params.append('id', this.props.id);
     
-    const response = await fetch(`${process.env.BACKEND_URL}/api/post`, {
+    const response = await   fetch(`${process.env.BACKEND_URL}/api/post`, {
       method: this.props.id ? 'PUT' : 'POST',
       body: params,
     });
