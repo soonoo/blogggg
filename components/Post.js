@@ -9,11 +9,6 @@ class Post extends React.Component {
   render() {
     return (
       <div className='ql-container ql-snow'>
-        <style jsx>{`
-        .ql-editor {
-          padding-left: 20px;
-        }
-      `}</style>
         <div className='ql-editor' dangerouslySetInnerHTML={{ __html: unescape(this.props.contents) }} />
       </div>
     );
