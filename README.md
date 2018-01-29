@@ -1,3 +1,3 @@
 # blogggg
 
-[soonoo.me](https://soonoo.me)
+[soonoo.me](http://soonoo.me)
