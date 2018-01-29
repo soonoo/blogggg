@@ -43,6 +43,7 @@ export default class Write extends React.Component {
         ['link', 'image'],
         ['clean']
       ],
+      
     }
 
     const formats = [
@@ -59,7 +60,11 @@ export default class Write extends React.Component {
       </this.dynamicComponent> 
     });
 
-    document.querySelector('.input-title').value = this.props.title; 
+    document.querySelector('.input-title').value = this.props.title;
+
+    window.onbeforeunload = function() {
+      return "Data will be lost if you leave the page, are you sure?";
+    };
   }
 
   render() {

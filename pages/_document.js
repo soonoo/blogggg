@@ -36,7 +36,8 @@ export default class MyDocument extends Document {
             }
             pre {
               white-space: pre !important;
-              overflow-x: scroll !important;
+              overflow-x: auto !important;
+              word-wrap: normal !important;
             }
           `}</style>
         </Head>   
