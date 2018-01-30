@@ -65,6 +65,14 @@ export default class Write extends React.Component {
     window.onbeforeunload = function() {
       return "Data will be lost if you leave the page, are you sure?";
     };
+
+    window.onscroll = function() {
+      const ipnut = document.querySelector('.input-title');
+      const toolbar = document.querySelector('.ql-toolbar');
+      console.log(toolbar.getBoundingClientRect())
+      if(ipnut.getBoundingClientRect().y <= -37) toolbar.classList.add('fixed');
+      else toolbar.classList.remove('fixed');
+    }
   }
 
   render() {

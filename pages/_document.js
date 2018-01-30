@@ -39,8 +39,18 @@ export default class MyDocument extends Document {
               overflow-wrap: normal !important;
               white-space: pre !important
             }
+            .fixed {
+              position: fixed;
+              top: 3px;
+              width:inherit;
+              max-width:inherit;
+            }
+            .quill {
+              width: 100%;
+              max-width: 82em;
+            }
           `}</style>
-        </Head>   
+        </Head>
         <body>
           <Main />
           <NextScript />
