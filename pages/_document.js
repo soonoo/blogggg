@@ -49,6 +49,9 @@ export default class MyDocument extends Document {
               width: 100%;
               max-width: 82em;
             }
+            .ql-toolbar {
+              background: white;
+            }
           `}</style>
         </Head>
         <body>  
