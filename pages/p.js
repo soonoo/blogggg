@@ -10,9 +10,9 @@ const P = (props) => (
 P.getInitialProps = async ({ asPath }) => {
   const response = await fetch(`${process.env.BACKEND_URL}/api/post${asPath}`);
   const data = await response.json();
-  
+
   return {
-    contents: data.length ? unescape(data[0].contents) : 'post do not exists',
+    contents: data.length ? unescape(data[0].contents) : '존재하지 않는 포스트입니다.',
     title: data.length ? unescape(data[0].title) : 'post do not exists'
   }
 };

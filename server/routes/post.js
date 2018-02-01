@@ -105,7 +105,7 @@ router.get('/recent', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-  promiseQuery('SELECT id, title, contents, post_date FROM posts WHERE id = ?', [req.params.id])
+  promiseQuery('SELECT id, title, contents, post_date FROM posts WHERE id = ? AND isDeleted = false', [req.params.id])
     .then((rows) => {
       rows.map(item => {
         item.contents = escape(item.contents);
