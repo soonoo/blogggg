@@ -45,7 +45,7 @@ const PostListItem = ({ title, date, postId, edit }) => {
         `}</style>
         <div>
           <Link href={{ pathname, query: { id: postId } }} as={asPath}>
-            <a className='item_title'>{title}</a>
+            <a className='item_title'>{unescape(title)}</a>
           </Link>
         </div>
         {edit ?

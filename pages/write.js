@@ -31,6 +31,18 @@ export default class Write extends React.Component {
     return data[0];
   }
 
+  unloadHandler() {
+    return "Data will be lost if you leave the page, are you sure?";
+  }
+
+  onscrollHandler() {
+    const ipnut = document.querySelector('.input-title');
+    const toolbar = document.querySelector('.ql-toolbar');
+
+    if(ipnut.getBoundingClientRect().y <= -37) toolbar.classList.add('fixed');
+    else toolbar.classList.remove('fixed');
+  }
+
   componentDidMount() {
     const modules = {
       syntax: true,
@@ -62,17 +74,13 @@ export default class Write extends React.Component {
 
     document.querySelector('.input-title').value = this.props.title;
 
-    window.onbeforeunload = function() {
-      return "Data will be lost if you leave the page, are you sure?";
-    };
+    window.onbeforeunload = this.unloadHandler;
+    window.onscroll = this.onscrollHandler;
+  }
 
-    window.onscroll = function() {
-      const ipnut = document.querySelector('.input-title');
-      const toolbar = document.querySelector('.ql-toolbar');
-      console.log(toolbar.getBoundingClientRect())
-      if(ipnut.getBoundingClientRect().y <= -37) toolbar.classList.add('fixed');
-      else toolbar.classList.remove('fixed');
-    }
+  componentWillUnmount() {
+    window.onbeforeunload = null;
+    window.onscroll = null;
   }
 
   render() {
@@ -111,12 +119,12 @@ export default class Write extends React.Component {
     const pw = document.querySelector('.input-pw').value;
 
     const params = new URLSearchParams();
-    params.append('contents', contents);
-    params.append('title', title);
-    params.append('pw', pw);
+    params.append('contents', escape(contents));
+    params.append('title', escape(title));
+    params.append('pw', escape(pw));
     params.append('id', this.props.id);
     
-    const response = await   fetch(`${process.env.BACKEND_URL}/api/post`, {
+    const response = await fetch(`${process.env.BACKEND_URL}/api/post`, {
       method: this.props.id ? 'PUT' : 'POST',
       body: params,
     });

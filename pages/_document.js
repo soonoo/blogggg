@@ -36,7 +36,7 @@ export default class MyDocument extends Document {
             }
             pre {
               overflow-x: auto !important;
-              overflow-wrap: normal !important;
+              word-wrap: normal !important;
               white-space: pre !important
             }
             .fixed {
@@ -51,7 +51,7 @@ export default class MyDocument extends Document {
             }
           `}</style>
         </Head>
-        <body>
+        <body>  
           <Main />
           <NextScript />
         </body>

@@ -15,10 +15,14 @@ const BlogTopic = () => {
           margin-right: 20px;
           cursor: pointer;
         }
+        a, a:visited {
+          color: black;
+          text-decoration: none;
+        }
       `}</style>
       <ul className='title_bar'>
-        <Link href='/'><li>Home</li></Link>
-        <Link href='/about'><li>About</li></Link>
+        <Link href='/'><li><a href='/'>Home</a></li></Link>
+        <li><Link href='/about'><a>About</a></Link></li>
         {/* <Link href='/write'><li><FaPencilSquare color='black' size={22} /></li></Link> */}
       </ul>
     </div>

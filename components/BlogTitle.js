@@ -10,8 +10,12 @@ const BlogTitle = () => {
           font-weight: 400;
           font-size: 2.3em;
         }
+        a, a:visited {
+          color: black;
+          text-decoration: none;
+        }
       `}</style>
-      <Link href='/'><h1>{BLOG_TITLE}</h1></Link>
+      <h1><Link href='/'><a>{BLOG_TITLE}</a></Link></h1>
     </header>
   );
 };

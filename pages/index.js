@@ -2,7 +2,7 @@ import { Layout, PostList } from 'Components';
 import React from 'react';
 
 const Index = ({ json }) => (
-  <Layout docTitle={'blog.soonoo.me'}>
+  <Layout>
     <PostList data={json}/>
   </Layout>
 )
