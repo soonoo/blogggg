@@ -1,0 +1,6 @@
+languate: javascript
+
+branches:
+  only: master
+
+script: 'npm run build'
