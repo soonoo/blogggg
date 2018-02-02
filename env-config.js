@@ -1,5 +1,5 @@
 const prod = process.env.NODE_ENV === 'production'
 
 module.exports = {
-  'process.env.BACKEND_URL': prod ? 'http://soonoo.me' : 'http://localhost:5000'
+  'process.env.BACKEND_URL': prod ? 'http://soonoo.me' : 'http://localhost'
 }
