@@ -6,7 +6,7 @@ const next = require('next');
 const bodyParser = require('body-parser');
 
 const dev = process.env.NODE_ENV !== 'production'
-const port = process.env.NODE_ENV !== 'production' ? 5000 : 80;
+const port = 8080;
 const app = next({ dev })
 const handle = app.getRequestHandler();
 
