@@ -3,4 +3,4 @@ languate: javascript
 branches:
   only: master
 
-script: 'npm run build'
+script: 'npm install && npm run build'
