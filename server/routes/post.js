@@ -32,8 +32,9 @@ async function isValidPassword(pwQuery) {
   return userPw === pw[0].password;
 }
 
-router.use(bodyParser.json());
-router.use(bodyParser.urlencoded({ extended: true }));
+router.use(bodyParser.json({ limit: '5mb' }));
+router.use(bodyParser.urlencoded({ extended: true, limit: '5mb' }));
+
 router.use((req, res, next) => {
   res.set({
     'Access-Control-Allow-Origin': '*',

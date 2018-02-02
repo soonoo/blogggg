@@ -3,6 +3,7 @@ const path = require('path');
 const morgan = require('morgan');
 const posts = require('./routes/post');
 const next = require('next');
+const bodyParser = require('body-parser');
 
 const dev = process.env.NODE_ENV !== 'production'
 const port = process.env.NODE_ENV !== 'production' ? 5000 : 80;
@@ -11,9 +12,8 @@ const handle = app.getRequestHandler();
 
 const server = express();
 
-
 app.prepare()
-  .then((req, res) => {
+  .then((req, res) => { 
     server.use(morgan('tiny'));
     server.use('/api/post', posts.router);
 

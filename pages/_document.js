@@ -51,6 +51,7 @@ export default class MyDocument extends Document {
             }
             .ql-toolbar {
               background: white;
+              z-index: 99;
             }
           `}</style>
         </Head>
