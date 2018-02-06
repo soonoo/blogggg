@@ -53,6 +53,10 @@ export default class MyDocument extends Document {
               background: white;
               z-index: 99;
             }
+            .ql-editor pre {
+              font-family: Monaco, Ubuntu Mono, Consolas, monospace;
+              font-size: 16px;
+            }
           `}</style>
         </Head>
         <body>  
