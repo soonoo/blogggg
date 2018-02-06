@@ -25,7 +25,7 @@ export default class Write extends React.Component {
       id: '',
     };
 
-    const response = await fetch(`${process.env.BACKEND_URL}/api/post/${id}`);;
+    const response = await fetch(`${BACKEND_URL}/api/post/${id}`);;
     const data = await response.json();
 
     return data[0];
@@ -87,7 +87,7 @@ export default class Write extends React.Component {
     return (
       <Layout>
         <style jsx>{`
-          .input-title {
+          .input-title, .input-tags {
             width: 100%;
             box-sizing: border-box;
             height: 37px;
@@ -104,6 +104,7 @@ export default class Write extends React.Component {
           }
         `}</style>
         <input className='input-title' />
+        <input className='input-tags' />
         {this.state.quill}
         <div>
           <input className='input-submit' type='button' onClick={this.handleSubmit} value='제출' />
@@ -117,18 +118,24 @@ export default class Write extends React.Component {
     const contents = document.querySelector('.ql-editor').innerHTML;
     const title = document.querySelector('.input-title').value;
     const pw = document.querySelector('.input-pw').value;
-
+    const tags = document.querySelector('.input-tags').value;
+    
     const params = new URLSearchParams();
     params.append('contents', escape(contents));
     params.append('title', escape(title));
     params.append('pw', escape(pw));
     params.append('id', this.props.id);
+    params.append('tags', tags);
     
-    const response = await fetch(`${process.env.BACKEND_URL}/api/post`, {
+    const response = await fetch(`${BACKEND_URL}/api/post`, {
       method: this.props.id ? 'PUT' : 'POST',
       body: params,
     });
 
+    if(response.status !== 200) {
+      alert(response.statusText);
+      return;
+    }
     const body = await response.json();
 
     Router.push(`/p?id=${body.id}`, `/${body.id}`);

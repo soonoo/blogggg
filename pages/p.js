@@ -8,7 +8,7 @@ const P = (props) => (
 
 
 P.getInitialProps = async ({ asPath }) => {
-  const response = await fetch(`${process.env.BACKEND_URL}/api/post${asPath}`);
+  const response = await fetch(`${BACKEND_URL}/api/post${asPath}`);
   const data = await response.json();
 
   return {

@@ -8,8 +8,7 @@ const Index = ({ json }) => (
 )
 
 Index.getInitialProps = async () => {
-  const url = process.env.BACKEND_URL;
-  const data = await fetch(`${url}/api/post/list`);
+  const data = await fetch(`${BACKEND_URL}/api/post/list`);
   const json = await data.json();
   return {
     json
