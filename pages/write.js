@@ -17,18 +17,24 @@ export default class Write extends React.Component {
   }
 
   static async getInitialProps({ asPath }) {
-    const id =  asPath === '/write' ? '' : asPath.slice(asPath.indexOf('=') + 1);
-    if(!id) 
-    return {
-      title: '',
-      contents: '',
-      id: '',
-    };
+    const id = asPath === '/write' ? '' : asPath.slice(asPath.indexOf('=') + 1);
+    if (!id) {
+      return {
+        title: '',
+        contents: '',
+        id: '',
+      };
+    }
 
     const response = await fetch(`${BACKEND_URL}/api/post/${id}`);;
     const data = await response.json();
+    const c = data[0].contents
 
-    return data[0];
+    return {
+      title: decodeURI(data[0].title),
+      contents: decodeURI(data[0].contents),
+      id: data[0].id,
+    };
   }
 
   unloadHandler() {
@@ -39,7 +45,7 @@ export default class Write extends React.Component {
     const ipnut = document.querySelector('.input-title');
     const toolbar = document.querySelector('.ql-toolbar');
 
-    if(ipnut.getBoundingClientRect().y <= -37) toolbar.classList.add('fixed');
+    if (ipnut.getBoundingClientRect().y <= -37) toolbar.classList.add('fixed');
     else toolbar.classList.remove('fixed');
   }
 
@@ -55,7 +61,7 @@ export default class Write extends React.Component {
         ['link', 'image'],
         ['clean']
       ],
-      
+
     }
 
     const formats = [
@@ -66,10 +72,11 @@ export default class Write extends React.Component {
       'link', 'image'
     ]
 
-    this.setState({ quill: 
-      <this.dynamicComponent modules={modules}  ref={(quill) => { this.quillRef = quill; }}>
-        <div className="custom-editing-area" dangerouslySetInnerHTML={{__html: unescape(this.props.contents)}}/>
-      </this.dynamicComponent> 
+    this.setState({
+      quill:
+        <this.dynamicComponent modules={modules} ref={(quill) => { this.quillRef = quill; }}>
+          <div className="custom-editing-area" dangerouslySetInnerHTML={{ __html: this.props.contents }} />
+        </this.dynamicComponent>
     });
 
     document.querySelector('.input-title').value = this.props.title;
@@ -101,6 +108,7 @@ export default class Write extends React.Component {
             box-sizing: border-box;
             margin-top: 2px;
             margin-right: 10px;
+            margin-bottom: 60px;
           }
         `}</style>
         <input className='input-title' />
@@ -119,20 +127,20 @@ export default class Write extends React.Component {
     const title = document.querySelector('.input-title').value;
     const pw = document.querySelector('.input-pw').value;
     const tags = document.querySelector('.input-tags').value;
-    
+
     const params = new URLSearchParams();
-    params.append('contents', escape(contents));
-    params.append('title', escape(title));
-    params.append('pw', escape(pw));
+    params.append('contents', encodeURI(contents));
+    params.append('title', encodeURI(title));
+    params.append('pw', encodeURI(pw));
     params.append('id', this.props.id);
     params.append('tags', tags);
-    
+
     const response = await fetch(`${BACKEND_URL}/api/post`, {
       method: this.props.id ? 'PUT' : 'POST',
       body: params,
     });
 
-    if(response.status !== 200) {
+    if (response.status !== 200) {
       alert(response.statusText);
       return;
     }

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Link from 'next/link';
 import FaTrashO from 'react-icons/lib/fa/trash-o';
 import fetch from 'isomorphic-unfetch';
@@ -9,6 +8,7 @@ const PostListItem = ({ title, date, postId, edit }) => {
   const pathname = edit ? '/write' : '/p';
   const asPath = edit ? `/write?id=${postId}` : `/${postId}`;
 
+  title = decodeURI(title);
   return (
       <li className='item_list'>
       <style jsx>{`
@@ -45,7 +45,7 @@ const PostListItem = ({ title, date, postId, edit }) => {
         `}</style>
         <div>
           <Link href={{ pathname, query: { id: postId } }} as={asPath}>
-            <a className='item_title'>{unescape(title)}</a>
+            <a className='item_title'>{title}</a>
           </Link>
         </div>
         {edit ?
@@ -63,7 +63,7 @@ const onDeleteClick = async (postId) => {
   const params = new URLSearchParams();
   params.append('pw', document.getElementById(postId).value);
 
-  const response = await fetch(`${process.env.BACKEND_URL}/api/post/${postId}`, {
+  const response = await fetch(`${BACKEND_URL}/api/post/${postId}`, {
     method: 'DELETE',
     body: params,
   });

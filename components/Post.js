@@ -9,7 +9,7 @@ class Post extends React.Component {
   render() {
     return (
       <div className='ql-container ql-snow'>
-        <div className='ql-editor' dangerouslySetInnerHTML={{ __html: unescape(this.props.contents) }} />
+        <div className='ql-editor' dangerouslySetInnerHTML={{ __html: decodeURI(this.props.contents) }} />
       </div>
     );
   }

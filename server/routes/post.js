@@ -102,9 +102,6 @@ router.get('/list/:id?', async (req, res) => {
     const rows = await promiseQuery('SELECT id, title, post_date FROM posts WHERE isDeleted = false ORDER BY ID DESC LIMIT ?, 10',
       [10 * (listId - 1)]);
 
-    rows.map(item => {
-      item.contents = escape(item.contents);
-    });
     res.send(rows)
   } catch (e) {
     console.log(e);
@@ -125,9 +122,6 @@ router.get('/:id', async (req, res) => {
   try {
     const rows = await promiseQuery('SELECT id, title, contents, post_date FROM posts WHERE id = ? AND isDeleted = false',
       [req.params.id]);
-    rows.map(item => {
-      item.contents = escape(item.contents);
-    });
     res.send(rows);
   } catch (e) {
     console.log(e);
