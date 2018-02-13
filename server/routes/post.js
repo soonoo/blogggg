@@ -6,13 +6,33 @@ const sha512 = require('js-sha512');
 let tags;
 
 const router = express.Router();
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'gkak2m7!',
-  database: 'blog',
-  timezone: 'UTC',
-});
+
+let connection;
+function handleConnection() {
+  connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'gkak2m7!',
+    database: 'blog',
+    timezone: 'UTC',
+  });
+
+  connection.connect(err => {
+    if(err) {
+      cosole.log('db connection error: ', err);
+      setTimeout(handleConnection, 2000);
+    }
+  });
+
+  connection.on('error', (err) => {
+    console.log('db error: ', err);
+    if(err.code === 'PROTOCOL_CONNECTION_LOST') {
+      handleDisconnect();
+    }
+  });
+}
+
+handleConnection();
 
 connection.connect((err) => {
   if (err) console.log(err.code, err.fatal);
