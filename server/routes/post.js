@@ -27,7 +27,7 @@ function handleConnection() {
   connection.on('error', (err) => {
     console.log('db error: ', err);
     if(err.code === 'PROTOCOL_CONNECTION_LOST') {
-      handleDisconnect();
+      handleConnection();
     }
   });
 }
