@@ -21,8 +21,9 @@ const BlogTopic = () => {
         }
       `}</style>
       <ul className='title_bar'>
-        <Link href='/'><li><a href='/'>Home</a></li></Link>
+        <li><Link href='/'><a href='/'>Home</a></Link></li>
         <li><Link href='/about'><a>About</a></Link></li>
+        <li><Link href='/univ'><a>Univ-courses</a></Link></li>
         {/* <Link href='/write'><li><FaPencilSquare color='black' size={22} /></li></Link> */}
       </ul>
     </div>
