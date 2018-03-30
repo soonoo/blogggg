@@ -119,8 +119,7 @@ router.get('/list/:id?', async (req, res) => {
   listId = parseInt(listId, 10);
 
   try {
-    const rows = await promiseQuery('SELECT id, title, post_date FROM posts WHERE isDeleted = false ORDER BY ID DESC LIMIT ?, 10',
-      [10 * (listId - 1)]);
+    const rows = await promiseQuery('SELECT id, title, post_date FROM posts WHERE isDeleted = false ORDER BY ID DESC');
 
     res.send(rows)
   } catch (e) {
