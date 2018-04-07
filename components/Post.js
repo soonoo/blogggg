@@ -16,9 +16,9 @@ class Post extends React.Component {
 
   componentDidMount() {
     const prefix = document.querySelector('.ql-editor').classList[0];
-    document.querySelectorAll('pre').forEach(el => {
+    Array.prototype.forEach.call(document.querySelectorAll('pre'), (el) => {
       el.classList.add(prefix);
-    });    
+    });
   }
 };
 
