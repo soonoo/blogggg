@@ -19,7 +19,7 @@ function handleConnection() {
 
   connection.connect(err => {
     if(err) {
-      cosole.log('db connection error: ', err);
+      console.log('db connection error: ', err);
       setTimeout(handleConnection, 2000);
     }
   });
