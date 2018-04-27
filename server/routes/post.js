@@ -38,11 +38,6 @@ connection.connect((err) => {
   if (err) console.log(err.code, err.fatal);
 });
 
-(async function initTags() {
-  tags = await promiseQuery('SELECT tag FROM post_tags');
-})();
-
-
 function promiseQuery(...args) {
   return new Promise((resolve, reject) => {
     connection.query(...args, (err, rows) => {
