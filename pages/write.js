@@ -26,7 +26,7 @@ export default class Write extends React.Component {
       };
     }
 
-    const response = await fetch(`${BACKEND_URL}/api/post/${id}`);;
+    const response = await fetch(`${process.env.BACKEND_URL}/api/post/${id}`);;
     const data = await response.json();
     const c = data[0].contents
 
@@ -135,7 +135,7 @@ export default class Write extends React.Component {
     params.append('id', this.props.id);
     params.append('tags', tags);
 
-    const response = await fetch(`${BACKEND_URL}/api/post`, {
+    const response = await fetch(`${process.env.BACKEND_URL}/api/post`, {
       method: this.props.id ? 'PUT' : 'POST',
       body: params,
     });
