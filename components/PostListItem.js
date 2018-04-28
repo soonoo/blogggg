@@ -4,10 +4,11 @@ import FaTrashO from 'react-icons/lib/fa/trash-o';
 import fetch from 'isomorphic-unfetch';
 import Router from 'next/router';
 
-const PostListItem = ({ title, date, postId, edit }) => {
+const PostListItem = ({ title, date, postId, edit, tags }) => {
   const pathname = edit ? '/write' : '/p';
   const asPath = edit ? `/write?id=${postId}` : `/${postId}`;
 
+  tags = decodeURI(tags);
   title = decodeURI(title);
   return (
       <li className='item_list'>
@@ -35,6 +36,13 @@ const PostListItem = ({ title, date, postId, edit }) => {
             position: relative;
             top: 4px;
           }
+          .item_tags {
+            font-size: 1.2em;
+            top: 4px;
+            position: relative;
+            left: 10px;
+            color: darkgreen;          
+          }
           .delete {
             margin-right: 6px;
             cursor: pointer;
@@ -52,8 +60,10 @@ const PostListItem = ({ title, date, postId, edit }) => {
           <span className='delete' data-display={false} onClick={() => onDeleteClick(postId)}>
             <FaTrashO size={22} />
           </span> 
-        : null}
+          : null}
         <span className='item_date'>{date.slice(0, 10).split('-').join('. ')}</span>
+        {tags !== 'null' ?
+          <span className='item_tags'>{tags}</span> : null}
         {edit ? <span className='delete-pw' ><input id={postId} ></input></span> : null}
       </li>
   );

@@ -133,7 +133,7 @@ export default class Write extends React.Component {
     params.append('title', encodeURI(title));
     params.append('pw', encodeURI(pw));
     params.append('id', this.props.id);
-    params.append('tags', tags);
+    params.append('tags', encodeURI(tags));
 
     const response = await fetch(`${process.env.BACKEND_URL}/api/post`, {
       method: this.props.id ? 'PUT' : 'POST',

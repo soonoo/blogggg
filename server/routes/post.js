@@ -47,6 +47,17 @@ function promiseQuery(...args) {
   });
 }
 
+function transactionQuery(...args) {
+  return new Promise((resolve, reject) => {
+    connection.query(...args, (err, rows) => {
+      if (err) reject(connection.rollback(() => {
+        throw err;
+      }));
+      resolve(rows);
+    });
+  });
+}
+
 async function isValidPassword(pwQuery) {
   const userPw = sha512(pwQuery).toUpperCase();
   const pw = await promiseQuery('SELECT password FROM pw');
@@ -64,27 +75,40 @@ router.use((req, res, next) => {
   next();
 });
 
+// write post
 router.post('/', async (req, res) => {
   if (!req.body.title || !req.body.contents) {
     return res.status(400).end();
   }
-  
-  console.log(req.body.tags.split(','));
-
+   
   const isValid = await isValidPassword(req.body.pw);
   if (!isValid) {
     return res.status(400).end();
   }
 
   try {
-    const rows = await promiseQuery('INSERT INTO posts(TITLE, CONTENTS) VALUES(?, ?)',
+    const postQuery = await transactionQuery('INSERT INTO posts(TITLE, CONTENTS) VALUES(?, ?)',
       [req.body.title, req.body.contents]);
-    res.send({ id: rows.insertId });
+    const postId = postQuery.insertId;
+
+    for(tagName of req.body.tags.split(",")) {  
+      const tagQuery = await transactionQuery('INSERT INTO tags(name) VALUES(?) ON DUPLICATE KEY UPDATE name=name, id=LAST_INSERT_ID(id)',
+        [tagName.trim()]);
+      const realationQuery = await transactionQuery('INSERT INTO tag_info(tag_id, post_id) VALUES(?, ?) ON DUPLICATE KEY UPDATE tag_id=tag_id, post_id=post_id',
+        [tagQuery.insertId, postId]);
+    }
+
+    res.send({ id: postId });
   } catch(e) {
     console.log(e);
   }
+
+  // connection.beginTransaction((err) => {
+  //   if(err) throw err;
+  // });
 });
 
+// modify post
 router.put('/', async (req, res) => {
   if (!req.body.title || !req.body.contents) {
     return res.status(400).end();
@@ -105,6 +129,7 @@ router.put('/', async (req, res) => {
   }
 });
 
+// get post list
 router.get('/list/:id?', async (req, res) => {
   let listId = req.params.id || 1;
 
@@ -114,7 +139,14 @@ router.get('/list/:id?', async (req, res) => {
   listId = parseInt(listId, 10);
 
   try {
-    const rows = await promiseQuery('SELECT id, title, post_date FROM posts WHERE isDeleted = false ORDER BY ID DESC');
+    const rows = await promiseQuery(`
+      SELECT p.id, p.title, p.post_date, GROUP_CONCAT(t.name) tags
+      FROM posts p
+      LEFT OUTER JOIN tag_info i ON i.post_id = p.id
+      LEFT OUTER JOIN tags t ON t.id = i.tag_id
+      GROUP BY p.id, p.title, p.post_date
+      ORDER BY p.post_date DESC;
+    `);
 
     res.send(rows)
   } catch (e) {
@@ -123,6 +155,7 @@ router.get('/list/:id?', async (req, res) => {
   }
 });
 
+// get recent post
 router.get('/recent', async (req, res) => {
   try {
     const rows = awaitpromiseQuery('SELECT * FROM posts ORDER BY ID DESC LIMIT 1')
@@ -132,6 +165,7 @@ router.get('/recent', async (req, res) => {
   }
 });
 
+// get post with id
 router.get('/:id', async (req, res) => {
   try {
     const rows = await promiseQuery('SELECT id, title, contents, post_date FROM posts WHERE id = ? AND isDeleted = false',
@@ -142,6 +176,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// delete post with id
 router.delete('/:id', async (req, res) => {
   const isValid = await isValidPassword(req.body.pw);
 

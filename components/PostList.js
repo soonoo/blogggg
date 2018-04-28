@@ -11,7 +11,14 @@ const PostList = ({ data, edit }) => (
       `}</style>
       <ul className='post_list'>
         {data.map(item => (
-          <PostListItem edit={edit} key={item.id} postId={item.id} title={item.title} date={item.post_date} />
+          <PostListItem
+            edit={edit}
+            key={item.id}
+            postId={item.id}
+            title={item.title} 
+            date={item.post_date} 
+            tags={item.tags}
+          />
         ))}
       </ul>
   </div>
