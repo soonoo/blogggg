@@ -63,7 +63,9 @@ const PostListItem = ({ title, date, postId, edit, tags }) => {
           : null}
         <span className='item_date'>{date.slice(0, 10).split('-').join('. ')}</span>
         {tags !== 'null' ?
-          <span className='item_tags'>{tags}</span> : null}
+          <span className='item_tags'>
+            {tags.split(",").map((s) => <Link href={`/tag?t=${s.trim()}`}>{s.trim()}</Link>)}
+          </span> : null}
         {edit ? <span className='delete-pw' ><input id={postId} ></input></span> : null}
       </li>
   );

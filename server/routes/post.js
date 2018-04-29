@@ -158,9 +158,34 @@ router.get('/list/:id?', async (req, res) => {
 // get recent post
 router.get('/recent', async (req, res) => {
   try {
-    const rows = awaitpromiseQuery('SELECT * FROM posts ORDER BY ID DESC LIMIT 1')
+    const rows = await promiseQuery('SELECT * FROM posts ORDER BY ID DESC LIMIT 1')
     res.send(rows);
   } catch (e) {
+    console.log(e);
+  }
+});
+
+
+router.get('/tag', async (req, res) => {
+  try {
+    const rows = await promiseQuery(`
+      SELECT p.id, p.title, p.post_date, GROUP_CONCAT(t.name) tags
+      FROM posts p
+      LEFT OUTER JOIN tag_info i ON i.post_id = p.id
+      LEFT OUTER JOIN tags t ON t.id = i.tag_id
+      WHERE p.id IN (
+        SELECT p.id
+        FROM posts p
+        LEFT OUTER JOIN tag_info i ON i.post_id = p.id
+        LEFT OUTER JOIN tags t ON t.id = i.tag_id
+        WHERE t.name = ?
+        ORDER BY p.post_date DESC
+      )
+      GROUP BY p.id, p.title, p.post_date
+      ORDER BY p.post_date DESC;
+    `, [encodeURI(req.query.t)]);
+    res.send(rows);
+  } catch(e) {
     console.log(e);
   }
 });
@@ -191,6 +216,7 @@ router.delete('/:id', async (req, res) => {
     console.log(e);
   }
 });
+
 
 module.exports = {
   router,
