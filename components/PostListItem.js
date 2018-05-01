@@ -43,6 +43,14 @@ const PostListItem = ({ title, date, postId, edit, tags }) => {
             left: 10px;
             color: darkgreen;          
           }
+          .tag_link {
+            border-radius: 3px;
+            padding: 1px 4px 1px 4px;
+          }
+          .tag_link:hover{
+            background-color: #ddd;
+            cursor: pointer;
+          }
           .delete {
             margin-right: 6px;
             cursor: pointer;
@@ -64,7 +72,7 @@ const PostListItem = ({ title, date, postId, edit, tags }) => {
         <span className='item_date'>{date.slice(0, 10).split('-').join('. ')}</span>
         {tags !== 'null' ?
           <span className='item_tags'>
-            {tags.split(",").map((s) => <Link href={`/tag?t=${s.trim()}`}>{s.trim()}</Link>)}
+            {tags.split(",").map((s) => <Link href={`/tag?t=${s.trim()}`}><span className='tag_link'>{s.trim()}</span></Link>)}
           </span> : null}
         {edit ? <span className='delete-pw' ><input id={postId} ></input></span> : null}
       </li>
