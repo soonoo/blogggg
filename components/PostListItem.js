@@ -83,7 +83,7 @@ const onDeleteClick = async (postId) => {
   const params = new URLSearchParams();
   params.append('pw', document.getElementById(postId).value);
 
-  const response = await fetch(`${BACKEND_URL}/api/post/${postId}`, {
+  const response = await fetch(`${process.env.BACKEND_URL}/api/post/${postId}`, {
     method: 'DELETE',
     body: params,
   });

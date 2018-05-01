@@ -155,6 +155,7 @@ router.get('/list/:id?', async (req, res) => {
       FROM posts p
       LEFT OUTER JOIN tag_info i ON i.post_id = p.id
       LEFT OUTER JOIN tags t ON t.id = i.tag_id
+      WHERE isDeleted = 0
       GROUP BY p.id, p.title, p.post_date
       ORDER BY p.post_date DESC;
     `);
