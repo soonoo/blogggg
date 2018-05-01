@@ -120,10 +120,21 @@ router.put('/', async (req, res) => {
     return res.status(400).end();
   }
 
+  const postId = req.body.id;
   try {
+    const removeTags = await promiseQuery(`DELETE FROM tag_info WHERE post_id = ?`, [postId])
     const rows = await promiseQuery('UPDATE posts SET title = ?, contents = ? WHERE id = ?',
-      [req.body.title, req.body.contents, parseInt(req.body.id)]);
-    res.send({ id: req.body.id });
+      [req.body.title, req.body.contents, postId]);
+
+    for(tagName of req.body.tags.split(",")) {
+      if (tagName === "") continue;
+      const tagQuery = await transactionQuery('INSERT INTO tags(name) VALUES(?) ON DUPLICATE KEY UPDATE name=name, id=LAST_INSERT_ID(id)',
+        [tagName.trim()]);
+      const realationQuery = await transactionQuery('INSERT INTO tag_info(tag_id, post_id) VALUES(?, ?) ON DUPLICATE KEY UPDATE tag_id=tag_id, post_id=post_id',
+        [tagQuery.insertId, postId]);
+    }
+
+    res.send({ id: postId });
   } catch (e) {
     console.log(e)
   }
