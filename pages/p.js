@@ -1,7 +1,7 @@
 import { Layout, Post } from 'Components';
 
 const P = (props) => (
-  <Layout docTitle={props.title}>
+  <Layout title={props.title}>
     <Post contents={props.contents}/>
   </Layout>
 )
