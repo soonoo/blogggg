@@ -1,17 +1,18 @@
-import { Layout, PostList } from 'Components';
+import { Layout, PostList, TagPageTitle } from 'Components';
 
-const Tag = ({json}) => (
+const Tag = ({json, query}) => (
     <Layout>
-        <PostList data={json}/>
+        <TagPageTitle tagName={query} />
+        <PostList data={json} />
     </Layout>
 );
 
-Tag.getInitialProps = async ({ asPath }) => {
-    const postList = await fetch(`${process.env.BACKEND_URL}/api/post${asPath}`);
+Tag.getInitialProps = async (props) => {
+    const postList = await fetch(`${process.env.BACKEND_URL}/api/post${props.asPath}`);
     const json = await postList.json();
-
     return {
-        json
+        json,
+        query: props.query.t
     };
 }
 
