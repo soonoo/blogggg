@@ -190,7 +190,7 @@ router.get('/tag', async (req, res) => {
         FROM posts p
         LEFT OUTER JOIN tag_info i ON i.post_id = p.id
         LEFT OUTER JOIN tags t ON t.id = i.tag_id
-        WHERE t.name = ?
+        WHERE t.name = ? AND isDeleted = 0
         ORDER BY p.post_date DESC
       )
       GROUP BY p.id, p.title, p.post_date
