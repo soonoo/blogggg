@@ -1,3 +1,5 @@
 .next/
 node_modules/
 static/write_files/
+server/password.js
+

@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const sha512 = require('js-sha512');
+const password = require('../password');
 
 let tags;
 
@@ -12,7 +13,7 @@ function handleConnection() {
   connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'gkak2m7!',
+    password: password,
     database: 'blog',
     timezone: 'UTC',
   });
