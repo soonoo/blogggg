@@ -14,14 +14,14 @@ const StyledLink = ({ children, router, href }) => {
         a {
           margin-right: 10px;
           transition: all 0.4s;
-          color: ${href === router.pathname ? 'black' : '#bbb'};
-          border-bottom: ${href === router.pathname ? '4px solid black' : '4px solid white'};
+          color: ${href === router.pathname ? '#0ba20b' : '#bbb'};
+          border-bottom: ${href === router.pathname ? '4px solid darkgreen' : '4px solid white'};
           padding: 12px 5px;
           text-decoration: none;
         }
         a:hover {
           transition: all 0.4s;
-          border-bottom: 4px solid black;
+          border-bottom: 4px solid darkgreen;
         }
       `}</style>
     </a>
