@@ -25,6 +25,7 @@ export default class MyDocument extends Document {
             }
             body {
               margin: 0;
+              min-width: 330px;
               font-family: Nanum; 
             }
             .ql-container {

@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import FaPencilSquare from 'react-icons/lib/fa/pencil-square';
+import StyledLink from './StyledLink';
 
 const BlogTopic = () => {
   return (
@@ -15,16 +16,12 @@ const BlogTopic = () => {
           margin-right: 20px;
           cursor: pointer;
         }
-        a, a:visited {
-          color: black;
-          text-decoration: none;
-        }
       `}</style>
       <ul className='title_bar'>
-        <li><Link href='/'><a href='/'>Home</a></Link></li>
-        <li><Link href='/about'><a>About</a></Link></li>
-        <li><Link href='/point'><a>리빙 포인트</a></Link></li>
-        {/* <Link href='/write'><li><FaPencilSquare color='black' size={22} /></li></Link> */}
+        <li><StyledLink href='/'>Home</StyledLink></li>
+        <li><StyledLink href='/about'>About</StyledLink></li>
+        <li><StyledLink href='/point'>리빙 포인트</StyledLink></li>
+        {/* <StyledLink href='/write'><li><FaPencilSquare color='black' size={22} /></li></StyledLink> */}
       </ul>
     </div>
   );

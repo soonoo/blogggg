@@ -5,15 +5,19 @@ const Layout = (props) => (
   <div>
     <DocTitle>{props.title}</DocTitle>
     <style jsx>{`
-    .container { 
-      margin: 0 auto;
-      max-width: 82em;
-    }
+      .container { 
+        margin: 0 auto;
+        max-width: 82em;
+      }
+    
+      div.divider {
+        border-bottom: 1px solid gray;
+      }
     `}</style>
     <div className='container'>
       <Header />
     </div>
-    <hr />
+    <div className='divider' />
     <div className='container'>
       {props.children}
     </div>

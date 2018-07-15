@@ -3,6 +3,7 @@ import Link from 'next/link';
 import FaTrashO from 'react-icons/lib/fa/trash-o';
 import fetch from 'isomorphic-unfetch';
 import Router from 'next/router';
+import StyledLink from './StyledLink';
 
 const PostListItem = ({ title, date, postId, edit, tags }) => {
   const pathname = edit ? '/write' : '/p';
@@ -17,7 +18,7 @@ const PostListItem = ({ title, date, postId, edit, tags }) => {
             margin-bottom: 1.8em;
           }
           .item_title {
-            font-size: 1.7em;
+            font-size: 1.3em;
             color: black;
             text-decoration: none;
             display: inline-block;
@@ -30,22 +31,23 @@ const PostListItem = ({ title, date, postId, edit, tags }) => {
             color: #888;
           }
           .item_date {
-            font-size: 1.2em;
+            font-size: 1.0em;
             margin-right: 6px;
             color: #888;
             position: relative;
             top: 4px;
           }
           .item_tags {
-            font-size: 1.2em;
+            font-size: 1.0em;
             top: 4px;
             position: relative;
             left: 10px;
-            color: darkgreen;          
           }
           .tag_link {
             border-radius: 3px;
             padding: 1px 4px 1px 4px;
+            text-decoration: none;
+            color: darkgreen;
           }
           .tag_link:hover{
             background-color: #ddd;
@@ -72,7 +74,7 @@ const PostListItem = ({ title, date, postId, edit, tags }) => {
         <span className='item_date'>{date.slice(0, 10).split('-').join('. ')}</span>
         {tags !== 'null' ?
           <span className='item_tags'>
-            {tags.split(",").map((s) => <Link href={`/tag?t=${s.trim()}`}><span className='tag_link'>{s.trim()}</span></Link>)}
+            {tags.split(",").map((s) => <Link href={`/tag?t=${s.trim()}`}><a className='tag_link'>{s.trim()}</a></Link>)}
           </span> : null}
         {edit ? <span className='delete-pw' ><input id={postId} ></input></span> : null}
       </li>
