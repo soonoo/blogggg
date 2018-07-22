@@ -1,5 +1,6 @@
 import { Layout, PostList } from 'Components';
 import React from 'react';
+import 'fetch' from 'isomorphic-unfetch';
 
 const Index = ({ json }) => (
   <Layout>

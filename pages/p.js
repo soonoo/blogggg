@@ -1,4 +1,5 @@
 import { Layout, Post } from 'Components';
+import 'fetch' from 'isomorphic-unfetch';
 
 const P = (props) => (
   <Layout title={props.title}>
@@ -8,7 +9,7 @@ const P = (props) => (
 
 
 P.getInitialProps = async ({ asPath }) => {
-  const response = await fetch(`${process.env.BACKEND_URL}/api/post${asPath}`);
+  const response = await fetch(`https://soonoo.me/api/post${asPath}`);
   const data = await response.json();
 
   return {
