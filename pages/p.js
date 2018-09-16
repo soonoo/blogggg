@@ -1,5 +1,5 @@
 import { Layout, Post } from 'Components';
-import 'fetch' from 'isomorphic-unfetch';
+import fetch from 'isomorphic-unfetch';
 
 const P = (props) => (
   <Layout title={props.title}>
