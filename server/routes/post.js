@@ -1,73 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const mysql = require('mysql');
 const sha512 = require('js-sha512');
-const password = require('../password');
+const { promiseQuery, transactionQuery } = require('../db');
 
 let tags;
 
 const router = express.Router();
 
-let connection;
-function handleConnection() {
-  connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: password,
-    database: 'blog',
-    timezone: 'UTC',
-  });
-
-  connection.connect(err => {
-    if(err) {
-      console.log('db connection error: ', err);
-      setTimeout(handleConnection, 2000);
-    }
-  });
-
-  connection.on('error', (err) => {
-    console.log('db error: ', err);
-    if(err.code === 'PROTOCOL_CONNECTION_LOST') {
-      handleConnection();
-    }
-  });
-}
-
-handleConnection();
-
-connection.connect((err) => {
-  if (err) console.log(err.code, err.fatal);
-});
-
-function promiseQuery(...args) {
-  return new Promise((resolve, reject) => {
-    connection.query(...args, (err, rows) => {
-      if (err) reject(err);
-      resolve(rows);
-    });
-  });
-}
-
-function transactionQuery(...args) {
-  return new Promise((resolve, reject) => {
-    connection.query(...args, (err, rows) => {
-      if (err) reject(connection.rollback(() => {
-        throw err;
-      }));
-      resolve(rows);
-    });
-  });
-}
-
-async function isValidPassword(pwQuery) {
-  const userPw = sha512(pwQuery).toUpperCase();
-  const pw = await promiseQuery('SELECT password FROM pw');
-
-  return userPw === pw[0].password;
-}
-
 router.use(bodyParser.json({ limit: '5mb' }));
-router.use(bodyParser.urlencoded({ extended: true, limit: '5mb' }));
 
 router.use((req, res, next) => {
   res.set({
@@ -103,10 +43,6 @@ router.post('/', async (req, res) => {
   } catch(e) {
     console.log(e);
   }
-
-  // connection.beginTransaction((err) => {
-  //   if(err) throw err;
-  // });
 });
 
 // modify post
@@ -230,8 +166,6 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-
 module.exports = {
   router,
-  connection
 };
