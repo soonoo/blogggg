@@ -43,7 +43,7 @@ const Point = ({ data, url }) => (
 );
 
 Point.getInitialProps = async () => {
-  const response = await fetch(`/api/points/list`);
+  const response = await fetch(`${process.env.BACKEND_URL}/api/points/list`);
   const data = await response.json();
 
   return {

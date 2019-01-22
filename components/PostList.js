@@ -1,5 +1,4 @@
 import { PostListItem } from 'Components';
-import fetch from 'isomorphic-unfetch';
 
 const PostList = ({ data, edit }) => (
   <div className='post_list_container'>

@@ -1,5 +1,3 @@
-import fetch from 'isomorphic-unfetch';
-
 const PostList = ({ data, edit }) => (
   <div className='point_list_container'>
       <style jsx>{`
