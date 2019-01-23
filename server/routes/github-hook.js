@@ -7,7 +7,7 @@ router.use(bodyParser.json({ limit: '5mb' }));
 
 // 글 목록 가져오기
 router.post('/', async (req, res) => {
-  if(req.body === 'refs/heads/master') {
+  if(req.body.ref === 'refs/heads/master') {
     res.sendStatus(200);
     exec('../deploy.sh');
   }
