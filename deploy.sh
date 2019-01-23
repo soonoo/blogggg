@@ -19,7 +19,7 @@ if [ -z $SERVER_PID ]; then
 	echo '> no process to kill'
 else
 	echo '> kill process'
-	sudo kill -15 $SERVER_PID
+	sudo kill -TERM $SERVER_PID
 	sleep 3
 fi
 
