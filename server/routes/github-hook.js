@@ -9,7 +9,7 @@ router.use(bodyParser.json({ limit: '5mb' }));
 router.post('/', async (req, res) => {
   if(req.body.ref === 'refs/heads/master') {
     res.sendStatus(200);
-    exec('../deploy.sh');
+    exec('deploy-blog.sh');
   }
   else {
     res.sendStatus(202);
