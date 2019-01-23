@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 // routers
 const posts = require('./routes/post');
 const points = require('./routes/points');
+const hook = require('./routes/github-hook');
 
 const dev = process.env.NODE_ENV !== 'production'
 const port = 8080;
@@ -19,6 +20,9 @@ app.prepare()
   .then((req, res) => { 
     server.use(morgan('tiny'));
     server.use(bodyParser.urlencoded({ extended: true, limit: '5mb' }));
+
+    server.use('/github-hook', hook.router);
+
     server.use('/api/post', posts.router);
     server.use('/api/points', points.router);
 
