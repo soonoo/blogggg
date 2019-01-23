@@ -73,7 +73,7 @@ export default () => (
         <div><img style={{width: '320px'}} src='https://s3.ap-northeast-2.amazonaws.com/soonoo.me/6.png' /></div>
         <div><img style={{width: '320px'}} src='https://s3.ap-northeast-2.amazonaws.com/soonoo.me/5.png' /></div>
         <div><img style={{width: '320px'}} src='https://s3.ap-northeast-2.amazonaws.com/soonoo.me/8.png' /></div>
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/_FU1oNu8vTM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/_FU1oNu8vTM" frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
       </div>
     </div>
   </Layout>
