@@ -11,7 +11,7 @@ router.post('/', async (req, res) => {
     res.sendStatus(200);
 
     // deploy-blog.sh should be in $PATH
-    exec('deploy-blog.sh');
+    exec('deploy-blog');
   }
   else {
     res.sendStatus(202);
