@@ -49,7 +49,7 @@ exports.transactionQuery = (...args) => {
 
 exports.isValidPassword = async (pwQuery) => {
   const userPw = sha512(pwQuery).toUpperCase();
-  const pw = await promiseQuery('SELECT password FROM pw');
+  const pw = await module.exports.promiseQuery('SELECT password FROM pw');
 
   return userPw === pw[0].password;
 }
