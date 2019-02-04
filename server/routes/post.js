@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const sha512 = require('js-sha512');
 const { promiseQuery, transactionQuery, isValidPassword } = require('../db');
 
 let tags;

@@ -1,5 +1,6 @@
 const mysql = require('mysql');
 const password = require('../password');
+const sha512 = require('js-sha512');
 
 let connection;
 exports.handleConnection = () => {
